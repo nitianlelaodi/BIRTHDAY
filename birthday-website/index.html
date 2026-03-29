@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日快乐 - 张航铭</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 星空背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主容器 */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* 标题动画 */
+        .title {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite, bounce 2s ease infinite;
+            margin-top: 50px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* 姓名展示 */
+        .name-display {
+            font-size: 3rem;
+            color: #fff;
+            margin: 30px 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+            to { text-shadow: 0 0 40px rgba(255, 107, 107, 1), 0 0 60px rgba(255, 107, 107, 0.8); }
+        }
+
+        /* 锁定提示 */
+        .lock-message {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 600px;
+            border: 2px solid rgba(254, 202, 87, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .lock-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: shake 2s ease infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .lock-text {
+            color: #feca57;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .lock-subtext {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        /* 祝福语卡片 */
+        .message-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .message-card:hover {
+            transform: perspective(1000px) rotateX(0deg) scale(1.02);
+        }
+
+        .message-text {
+            font-size: 1.3rem;
+            color: #fff;
+            line-height: 2;
+            text-align: left;
+        }
+
+        .message-text p {
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .message-text p:nth-child(1) { animation-delay: 0.5s; }
+        .message-text p:nth-child(2) { animation-delay: 1s; }
+        .message-text p:nth-child(3) { animation-delay: 1.5s; }
+        .message-text p:nth-child(4) { animation-delay: 2s; }
+        .message-text p:nth-child(5) { animation-delay: 2.5s; }
+        .message-text p:nth-child(6) { animation-delay: 3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 蛋糕动画 */
+        .cake-container {
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .cake {
+            font-size: 8rem;
+            animation: cakeBounce 1s ease infinite;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .cake:hover {
+            animation: cakeSpin 0.5s ease;
+        }
+
+        @keyframes cakeSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* 气球 */
+        .balloons {
+            position: fixed;
+            bottom: -200px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 60px;
+            height: 80px;
+            border-radius: 50%;
+            animation: float 8s ease-in infinite;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-50%);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 烟花效果 */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* 按钮 */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* 音乐控制 */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .music-btn.playing {
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* 照片墙 */
+        .photo-wall {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .photo-frame {
+            width: 280px;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-10px) rotate(2deg) scale(1.05);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .title { font-size: 2.5rem; }
+            .name-display { font-size: 2rem; }
+            .message-text { font-size: 1rem; }
+            .cake { font-size: 5rem; }
+            .photo-frame { width: 90%; height: 250px; }
+        }
+
+        /* 倒计时 */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            color: #feca57;
+            font-weight: bold;
+        }
+
+        .countdown-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* 隐藏内容 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 解锁动画 */
+        .unlock-animation {
+            animation: unlockPulse 1s ease;
+        }
+
+        @keyframes unlockPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* 特别祝福 */
+        .special-wish {
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.3), rgba(254, 202, 87, 0.3));
+            border: 2px solid #feca57;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .special-wish p {
+            color: #feca57;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(254, 202, 87, 0.5);
+        }
+
+        /* 年份标题 */
+        .year-title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 30px 0 10px;
+            font-weight: bold;
+            animation: fadeInUp 1s ease;
+        }
+
+        .year-theme {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        /* 周年纪念标记 */
+        .anniversary-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin: 10px 0;
+            animation: pulse 2s ease infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 气球 -->
+    <div class="balloons" id="balloons"></div>
+
+    <!-- 烟花 -->
+    <div class="fireworks" id="fireworks"></div>
+
+    <!-- 音乐控制 -->
+    <div class="music-control">
+        <button class="music-btn" id="musicBtn">🎵</button>
+    </div>
+
+    <div class="container">
+        <!-- 主标题 -->
+        <h1 class="title">🎉 生日快乐 🎉</h1>
+
+        <!-- 姓名 -->
+        <div class="name-display" id="birthdayName">张航铭</div>
+
+        <!-- 倒计时 -->
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-label">天</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-label">时</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-label">分</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-label">秒</div>
+            </div>
+        </div>
+
+        <!-- 锁定提示（非生日当天显示） -->
+        <div class="lock-message" id="lockMessage">
+            <div class="lock-icon">🔒</div>
+            <div class="lock-text">惊喜内容已锁定</div>
+            <div class="lock-subtext">4月4日生日当天自动解锁，敬请期待！</div>
+        </div>
+
+        <!-- 生日专属内容（4月4日才显示） -->
+        <div id="birthdayContent" class="hidden">
+            <!-- 年份标题 -->
+            <div class="year-title" id="yearTitle">🎉 祝你生日快乐</div>
+            <div class="year-theme" id="yearTheme"></div>
+
+            <!-- 蛋糕 -->
+            <div class="cake-container">
+                <div class="cake" id="cake">🎂</div>
+            </div>
+
+            <!-- 祝福语 -->
+            <div class="message-card">
+                <div class="message-text" id="messageContent">
+                    <!-- 动态插入祝福语 -->
+                </div>
+            </div>
+
+            <!-- 特别祝福 -->
+            <div class="special-wish">
+                <p id="specialWishText">✨ 希望您在新的一岁心想事成 ✨</p>
+            </div>
+
+            <!-- 照片墙标题 -->
+            <h2 style="color: #feca57; font-size: 2rem; margin: 40px 0 20px; text-shadow: 0 0 20px rgba(254, 202, 87, 0.5);">📷 我们的回忆</h2>
+
+            <!-- 照片墙 -->
+            <div class="photo-wall">
+                <div class="photo-frame" title="初中美好时光">
+                    <img id="friendPhoto" alt="我们的合照">
+                </div>
+            </div>
+
+            <!-- 互动按钮 -->
+            <button class="btn" onclick="createFirework()">🎆 放烟花</button>
+            <button class="btn" onclick="releaseBalloons()">🎈 放飞气球</button>
+        </div>
+    </div>
+
+    <script>
+        // 配置 - 张航铭的生日信息
+        const config = {
+            name: "张航铭",
+            birthdayMonth: 4,
+            birthdayDay: 4
+        };
+
+        // 照片 Base64 数据（你上传的照片）
+        const photoBase64 = "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";
+
+        // 每年的祝福语（循环使用）
+        const yearlyMessages = {
+            // 第1年（2026年）- 相识纪念
+            2026: {
+                title: "🎉 第1次祝你生日快乐",
+                greetings: [
+                    "嘿，张航铭！我的好朋友！",
+                    "今天是你的特别日子，我想用这种方式为你送上最特别的祝福。",
+                    "从初中相识到现在，我们一起经历了那么多美好的时光。那些课堂上的窃窃私语，课间的追逐打闹，还有一起为考试奋斗的日子，都是我珍贵的回忆。",
+                    "愿你的每一天都充满阳光，愿你的每一个梦想都能实现，愿我们的友谊长存！",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐！🎂🎈🎁"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "相识纪念"
+            },
+            // 第2年（2027年）- 友谊长存
+            2027: {
+                title: "🎊 第2次祝你生日快乐",
+                greetings: [
+                    "张航铭，又一年生日到啦！",
+                    "时间过得真快，转眼间又是一年。",
+                    "这一年里，我们或许各自忙碌，但友谊从未褪色。",
+                    "愿你新的一岁，学业/事业更上一层楼，生活更加精彩！",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，我的好兄弟！🎂🎉"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "友谊长存"
+            },
+            // 第3年（2028年）- 梦想启航
+            2028: {
+                title: "🎂 第3次祝你生日快乐",
+                greetings: [
+                    "张航铭，生日快乐！",
+                    "三年时光，见证了我们友谊的成长。",
+                    "愿你在这个崭新的年岁里，勇敢追逐梦想，不断突破自我。",
+                    "无论未来道路如何，记得有我这个朋友一直在支持你！",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，前程似锦！🌟"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "梦想启航"
+            },
+            // 第4年（2029年）- 感恩有你
+            2029: {
+                title: "🎈 第4次祝你生日快乐",
+                greetings: [
+                    "亲爱的张航铭，生日快乐！",
+                    "四年了，感谢生命中有你这样的好朋友。",
+                    "那些一起走过的日子，将成为我们最美好的回忆。",
+                    "愿你在新的一岁里，健康平安，快乐常伴！",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，感恩有你！💝"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "感恩有你"
+            },
+            // 第5年（2030年）- 未来可期
+            2030: {
+                title: "🌟 第5次祝你生日快乐",
+                greetings: [
+                    "张航铭，生日快乐！",
+                    "五年友谊，历久弥新。",
+                    "从青涩少年到成熟青年，我们一起成长。",
+                    "愿你的未来充满无限可能，所有努力都有回报！",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，未来可期！🚀"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "未来可期"
+            },
+            // 第6年（2031年）- 情谊永恒
+            2031: {
+                title: "💫 第6次祝你生日快乐",
+                greetings: [
+                    "张航铭，又一年生日！",
+                    "六年的友谊，已经像家人一样亲密。",
+                    "愿你在新的一岁里，收获更多快乐，实现更多目标。",
+                    "我们的友谊，会像美酒一样，越陈越香。",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，情谊永恒！🥂"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "情谊永恒"
+            },
+            // 第7年（2032年）- 携手同行
+            2032: {
+                title: "🤝 第7次祝你生日快乐",
+                greetings: [
+                    "张航铭，生日快乐！",
+                    "七年之痒？不存在的！我们的友谊只会越来越深。",
+                    "愿你在新的一岁里，事业顺利，爱情甜蜜。",
+                    "无论风雨，我们都是彼此最坚实的后盾。",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，携手同行！🌈"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "携手同行"
+            },
+            // 第8年（2033年）- 不忘初心
+            2033: {
+                title: "💎 第8次祝你生日快乐",
+                greetings: [
+                    "张航铭，生日快乐！",
+                    "八年时光，初心不改。",
+                    "还记得初中时的梦想吗？愿你在新的一岁里离梦想更近一步。",
+                    "感谢一路有你，让我的青春如此精彩。",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，不忘初心！🎯"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "不忘初心"
+            },
+            // 第9年（2034年）- 砥砺前行
+            2034: {
+                title: "🔥 第9次祝你生日快乐",
+                greetings: [
+                    "张航铭，生日快乐！",
+                    "九年风雨，砥砺前行。",
+                    "愿你在新的一岁里，勇敢面对挑战，收获满满成就。",
+                    "我们的友谊，是彼此最宝贵的财富。",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，继续加油！💪"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "砥砺前行"
+            },
+            // 第10年（2035年）- 十年之约
+            2035: {
+                title: "🎊 第10次祝你生日快乐 - 十年之约",
+                greetings: [
+                    "张航铭，生日快乐！",
+                    "十年了！从初中同学到十年挚友，这是多么珍贵的缘分。",
+                    "感谢你出现在我的生命里，成为最好的朋友。",
+                    "愿我们在未来的日子里，继续创造更多美好回忆。",
+                    "希望您在新的一岁心想事成！",
+                    "生日快乐，十年友谊万岁！🥳"
+                ],
+                specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+                theme: "十年之约"
+            }
+        };
+
+        // 默认祝福语（超过10年后循环使用）
+        const defaultMessages = {
+            title: "🎂 祝你生日快乐",
+            greetings: [
+                "嘿，张航铭！我的好朋友！",
+                "又是你的生日，又是我们庆祝友谊的日子。",
+                "岁月流转，友谊长存。",
+                "愿你在新的一岁里，所有的美好都如期而至。",
+                "希望您在新的一岁心想事成！",
+                "生日快乐！友谊万岁！🎉"
+            ],
+            specialWish: "✨ 希望您在新的一岁心想事成 ✨",
+            theme: "友谊长存"
+        };
+
+        // 检查是否是生日当天
+        function checkBirthday() {
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentDay = now.getDate();
+            
+            return currentMonth === config.birthdayMonth && currentDay === config.birthdayDay;
+        }
+
+        // 获取当前年份的祝福语
+        function getYearlyMessages(year) {
+            // 计算是第几年（从2026年开始）
+            const yearIndex = year - 2026 + 1;
+            
+            // 如果在已定义的范围内，返回对应年份的祝福语
+            if (yearlyMessages[year]) {
+                return yearlyMessages[year];
+            }
+            
+            // 超过10年后，使用默认祝福语，但更新标题
+            return {
+                ...defaultMessages,
+                title: `🎂 第${yearIndex}次祝你生日快乐`
+            };
+        }
+
+        // 更新祝福语显示
+        function updateMessages(year) {
+            const messages = getYearlyMessages(year);
+            
+            // 更新标题
+            document.getElementById('yearTitle').textContent = messages.title;
+            document.getElementById('yearTheme').textContent = `主题：${messages.theme}`;
+            
+            // 更新祝福语
+            const messageContainer = document.getElementById('messageContent');
+            messageContainer.innerHTML = '';
+            messages.greetings.forEach((msg, index) => {
+                const p = document.createElement('p');
+                p.textContent = msg;
+                p.style.animationDelay = `${(index + 1) * 0.5}s`;
+                messageContainer.appendChild(p);
+            });
+            
+            // 更新特别祝福
+            document.getElementById('specialWishText').textContent = messages.specialWish;
+        }
+
+        // 解锁内容
+        function unlockContent() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            
+            document.getElementById('lockMessage').classList.add('hidden');
+            document.getElementById('birthdayContent').classList.remove('hidden');
+            document.getElementById('birthdayContent').classList.add('unlock-animation');
+            
+            // 更新每年的祝福语
+            updateMessages(currentYear);
+            
+            // 设置照片
+            document.getElementById('friendPhoto').src = photoBase64;
+            
+            // 启动特效
+            createStars();
+            releaseBalloons();
+            setInterval(createFirework, 3000);
+        }
+
+        // 创建星空
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 创建气球
+        function createBalloon() {
+            const balloonsContainer = document.getElementById('balloons');
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd'];
+            balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.left = Math.random() * 100 + '%';
+            balloon.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            balloonsContainer.appendChild(balloon);
+
+            setTimeout(() => balloon.remove(), 10000);
+        }
+
+        // 释放气球
+        function releaseBalloons() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createBalloon, i * 200);
+            }
+        }
+
+        // 创建烟花
+        function createFirework() {
+            const fireworksContainer = document.getElementById('fireworks');
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight * 0.5;
+            const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#fff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = color;
+
+                const angle = (Math.PI * 2 / 30) * i;
+                const velocity = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                particle.style.transform = `translate(${tx}px, ${ty}px)`;
+
+                fireworksContainer.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        // 倒计时
+        function updateCountdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let birthday = new Date(currentYear, config.birthdayMonth - 1, config.birthdayDay);
+
+            if (birthday < now) {
+                birthday = new Date(currentYear + 1, config.birthdayMonth - 1, config.birthdayDay);
+            }
+
+            const diff = birthday - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // 音乐控制
+        let isPlaying = false;
+        document.getElementById('musicBtn').addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            this.classList.toggle('playing', isPlaying);
+            this.textContent = isPlaying ? '🔊' : '🔇';
+        });
+
+        // 初始化
+        function init() {
+            // 检查是否是生日当天
+            if (checkBirthday()) {
+                unlockContent();
+            } else {
+                // 非生日当天只显示倒计时
+                createStars();
+                document.getElementById('lockMessage').classList.remove('hidden');
+                document.getElementById('birthdayContent').classList.add('hidden');
+            }
+            
+            // 启动倒计时
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
